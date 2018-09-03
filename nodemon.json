@@ -1,0 +1,6 @@
+{
+  "ext": "*",
+  "exec": "./node_modules/.bin/webpack && ./node_modules/.bin/babel-node ./src/server/app.js",
+  "watch": "./",
+  "ignore": ["./dist", "./postgres"]
+}

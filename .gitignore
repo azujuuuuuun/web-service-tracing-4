@@ -1,0 +1,11 @@
+# Logs
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# built file
+dist/
+
+# data directory
+postgres/

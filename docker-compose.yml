@@ -1,0 +1,24 @@
+version: '3'
+services: 
+  app:
+    build: .
+    container_name: app
+    command: yarn run watch
+    depends_on:
+      - db
+    environment:
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=
+      - DB_NAME=postgres
+      - DB_HOSTNAME=db
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/home/app:cached
+  db:
+    image: postgres
+    container_name: db
+    ports:
+      - '5432:5432'
+    volumes: 
+      - ./postgres:/var/lib/postgresql/data:cached
