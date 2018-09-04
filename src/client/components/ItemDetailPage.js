@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import TextField from '@material-ui/core/TextField';
 
 import GlobalHeader from '../containers/GlobalHeaderContainer';
 
 const ItemDetailPage = (props) => {
-  const { item, handleClickLike, hasLiked } = props;
+  const {
+    item, handleClickLike, hasLiked, text, handleSubmit,
+  } = props;
   return (
     <div>
       <GlobalHeader />
@@ -37,6 +40,34 @@ const ItemDetailPage = (props) => {
           <p>{item.body}</p>
         </div>
       )}
+      <div>
+        <div>
+          {item.comments.map(c => (
+            <div key={c.id}>
+              <div>
+                <div>
+                  <span>{c.user.username}</span>
+                </div>
+                <div>
+                  <span>{c.createdAt}</span>
+                </div>
+              </div>
+              <p>{c.text}</p>
+            </div>
+          ))}
+        </div>
+        <div>
+          <div>コメントを投稿する</div>
+          <TextField
+            value={text.input.value}
+            onChange={text.input.onChange}
+            placeholder="コメントを入力してください"
+            multiline
+            rows="4"
+          />
+          <Button onClick={handleSubmit}>投稿</Button>
+        </div>
+      </div>
     </div>
   );
 };

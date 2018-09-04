@@ -4,11 +4,13 @@ import {
   postItemSucceeded,
   fetchItemSucceeded,
   likeSucceeded,
+  postCommentSucceeded,
   fetchItemsSucceeded,
 } from '../actions';
 
 const itemDefaultState = {
   likes: [],
+  comments: [],
 };
 const itemsDefaultState = [];
 
@@ -19,6 +21,12 @@ export const item = createReducer({
     likes: [
       payload.like,
       ...state.likes,
+    ],
+  }),
+  [postCommentSucceeded]: (state, payload) => Object.assign({}, state, {
+    comments: [
+      payload.comment,
+      ...state.comments,
     ],
   }),
 }, itemDefaultState);
