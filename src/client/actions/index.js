@@ -3,4 +3,5 @@
 export * from './auth';
 export * from './user';
 export * from './item';
+export * from './like';
 export * from './dropdown';
