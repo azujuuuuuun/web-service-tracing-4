@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import AppPage from './AppPageContainer';
+import UserPage from './UserPageContainer';
 import DraftNewPage from './DraftNewPageContainer';
 import ItemDetailPage from './ItemDetailPageContainer';
 import IndexPage from './IndexPageContainer';
@@ -18,6 +19,7 @@ class RoutingContainer extends React.Component { // eslint-disable-line
         <Route exact path="/" component={AppPage} />
         <Route path="/drafts/new" component={DraftNewPage} />
         <Route path="/:username/items/:itemId" component={ItemDetailPage} />
+        <Route path="/:username" component={UserPage} />
       </Switch>
     ) : (
       <Switch>
