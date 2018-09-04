@@ -48,7 +48,7 @@ router.get('/:itemId', async (req, res) => {
     const { itemId } = req.params;
     const item = await Item.findOne({
       where: { id: itemId },
-      include: [Item.User],
+      include: [Item.User, Item.Likes],
     });
     res.status(200).send({ item });
   } catch (err) {

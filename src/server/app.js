@@ -16,6 +16,7 @@ const path = require('path');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const itemsRouter = require('./routes/items');
+const likesRouter = require('./routes/likes');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/public', express.static(path.resolve(__dirname, '../../public')));
 app.use('/', authRouter);
 app.use('/users', usersRouter);
 app.use('/items', itemsRouter);
+app.use('/likes', likesRouter);
 
 const renderFullPage = (html, preloadedState) => (
   `
