@@ -1,5 +1,7 @@
 import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import { authenticateRequested } from '../actions';
 
@@ -21,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
   authenticateRequest: () => dispatch(authenticateRequested()),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
 )(AuthContainer);

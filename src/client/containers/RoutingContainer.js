@@ -1,8 +1,11 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import AppPage from './AppPageContainer';
+import DraftNewPage from './DraftNewPageContainer';
+import ItemDetailPage from './ItemDetailPageContainer';
 import IndexPage from './IndexPageContainer';
 import SignupPage from './SignupPageContainer';
 import LoginPage from './LoginPageContainer';
@@ -13,6 +16,8 @@ class RoutingContainer extends React.Component { // eslint-disable-line
     return isLoggedIn ? (
       <Switch>
         <Route exact path="/" component={AppPage} />
+        <Route path="/drafts/new" component={DraftNewPage} />
+        <Route path="/:username/items/:itemId" component={ItemDetailPage} />
       </Switch>
     ) : (
       <Switch>
@@ -28,6 +33,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.viewer.isLoggedIn,
 });
 
-export default connect(
-  mapStateToProps,
+export default compose(
+  withRouter,
+  connect(mapStateToProps),
 )(RoutingContainer);

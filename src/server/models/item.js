@@ -1,17 +1,17 @@
 'use strict'; // eslint-disable-line
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const Item = sequelize.define('Item', {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    username: {
+    title: {
       allowNull: false,
       type: DataTypes.STRING,
     },
-    password: {
+    body: {
       allowNull: false,
       type: DataTypes.STRING,
     },
@@ -23,13 +23,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.DATE,
     },
+    userId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
   }, {});
-  User.associate = models => { // eslint-disable-line
+  Item.associate = function(models) { // eslint-disable-line
     // associations can be defined here
-    User.Items = User.hasMany(models.Item, {
+    Item.User = Item.belongsTo(models.User, {
       foreignKey: 'userId',
-      as: 'items',
+      as: 'user',
     });
   };
-  return User;
+  return Item;
 };
