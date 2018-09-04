@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   User.associate = models => { // eslint-disable-line
     // associations can be defined here
+    User.Items = User.hasMany(models.Item, {
+      foreignKey: 'userId',
+      as: 'items',
+    });
   };
   return User;
 };
