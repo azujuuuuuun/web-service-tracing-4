@@ -41,7 +41,7 @@ function* like(action) {
     if (err) {
       yield put(likeFailed({ message: err.message }));
     } else if (data) {
-      yield put(likeSucceeded({ data }));
+      yield put(likeSucceeded({ like: data }));
     }
   } catch (e) {
     yield put(likeFailed({ message: e.message }));
