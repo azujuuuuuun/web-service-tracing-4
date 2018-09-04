@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Loading from './LoadingContainer';
 import ItemDetailPage from '../components/ItemDetailPage';
-import { fetchItemRequested } from '../actions';
+import { fetchItemRequested, likeRequested } from '../actions';
 
 class ItemDetailPageContainer extends React.Component { // eslint-disable-line
   componentDidMount() {
@@ -13,10 +13,15 @@ class ItemDetailPageContainer extends React.Component { // eslint-disable-line
   }
 
   render() {
-    const { item } = this.props;
+    const { item, likeRequest, viewer } = this.props;
+    const hasLiked = item.likes.some(i => i.userId === viewer.id);
     return (
       <Loading>
-        <ItemDetailPage item={item} />
+        <ItemDetailPage
+          item={item}
+          handleClickLike={likeRequest}
+          hasLiked={hasLiked}
+        />
       </Loading>
     );
   }
@@ -24,10 +29,12 @@ class ItemDetailPageContainer extends React.Component { // eslint-disable-line
 
 const mapStateToProps = state => ({
   item: state.item,
+  viewer: state.viewer,
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchItemRequest: itemId => dispatch(fetchItemRequested({ itemId })),
+  likeRequest: itemId => dispatch(likeRequested({ itemId })),
 });
 
 export default connect(
