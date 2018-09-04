@@ -5,7 +5,7 @@ const db = require('../models');
 
 const router = express.Router();
 
-const { User, Item } = db;
+const { User, Item, Comment } = db;
 
 router.post('/', async (req, res) => {
   const { token } = req.headers;
@@ -48,7 +48,14 @@ router.get('/:itemId', async (req, res) => {
     const { itemId } = req.params;
     const item = await Item.findOne({
       where: { id: itemId },
-      include: [Item.User, Item.Likes],
+      include: [{
+        association: Item.User
+      }, {
+        association: Item.Likes
+      }, {
+        association: Item.Comments,
+        include: [Comment.User],
+      }],
     });
     res.status(200).send({ item });
   } catch (err) {
