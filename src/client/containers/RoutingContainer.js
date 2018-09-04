@@ -1,5 +1,6 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import AppPage from './AppPageContainer';
@@ -28,6 +29,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.viewer.isLoggedIn,
 });
 
-export default connect(
-  mapStateToProps,
+export default compose(
+  withRouter,
+  connect(mapStateToProps),
 )(RoutingContainer);
