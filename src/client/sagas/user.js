@@ -7,7 +7,10 @@ import {
   takeEvery,
 } from 'redux-saga/effects';
 
-import { fetchUserRequested, fetchUserSucceeded, fetchUserFailed } from '../actions';
+import {
+  fetchUserRequested, fetchUserSucceeded, fetchUserFailed,
+  fetchUsersRequested, fetchUsersSucceeded, fetchUsersFailed,
+} from '../actions';
 
 const Api = {
   fetchUser: async (username) => {
@@ -19,6 +22,20 @@ const Api = {
       const { data } = res;
       const { user } = data;
       return { user };
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      return { err };
+    }
+  },
+  fetchUsers: async () => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: '/api/users',
+      });
+      const { data } = res;
+      const { users } = data;
+      return { users };
     } catch (err) {
       console.log(err); // eslint-disable-line no-console
       return { err };
@@ -39,12 +56,32 @@ function* fetchUser(action) {
   }
 }
 
+function* fetchUsers() {
+  try {
+    const { err, users } = yield call(Api.fetchUsers);
+    if (err) {
+      yield put(fetchUsersFailed({ message: err.message }));
+    } else if (users) {
+      yield put(fetchUsersSucceeded({ users }));
+    }
+  } catch (e) {
+    yield put(fetchUsersFailed({ message: e.message }));
+  }
+}
+
 function* watchFetchUser() {
   yield takeEvery(fetchUserRequested.getType(), fetchUser);
 }
 
+function* watchFetchUsers() {
+  yield takeEvery(fetchUsersRequested.getType(), fetchUsers);
+}
+
 function* rootSaga() {
-  yield all([fork(watchFetchUser)]);
+  yield all([
+    fork(watchFetchUser),
+    fork(watchFetchUsers),
+  ]);
 }
 
 export default rootSaga;
