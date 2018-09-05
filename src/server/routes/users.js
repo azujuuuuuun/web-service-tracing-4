@@ -23,4 +23,14 @@ router.get('/:username', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.findAll({});
+    res.status(200).send({ users });
+  } catch (err) {
+    console.log(err); // eslint-disable-line no-console
+    res.status(400).send(err);
+  }
+});
+
 module.exports = router;
