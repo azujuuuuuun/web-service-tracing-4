@@ -5,6 +5,8 @@ import {
   loginSucceeded,
   logoutSucceeded,
   authenticateSucceeded,
+  followRequested,
+  unfollowRequested,
 } from '../actions';
 
 const defaultState = {
@@ -25,6 +27,15 @@ const viewer = createReducer({
   [authenticateSucceeded]: (state, payload) => Object.assign({}, state, {
     isLoggedIn: true,
     ...payload.user,
+  }),
+  [followRequested]: (state, payload) => Object.assign({}, state, {
+    followings: [
+      payload.user,
+      ...state.followings,
+    ],
+  }),
+  [unfollowRequested]: (state, payload) => Object.assign({}, state, {
+    followings: state.followings.filter(f => f.id !== payload.followedId),
   }),
 }, defaultState);
 
