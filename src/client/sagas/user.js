@@ -14,7 +14,7 @@ const Api = {
     try {
       const res = await axios({
         method: 'get',
-        url: `/users/${username}`,
+        url: `/api/users/${username}`,
       });
       const { data } = res;
       const { user } = data;
