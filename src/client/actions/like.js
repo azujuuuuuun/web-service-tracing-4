@@ -5,3 +5,7 @@ import { createAction } from 'redux-act';
 export const likeRequested = createAction('LIKE_REQUESTED');
 export const likeSucceeded = createAction('LIKE_SUCCEEDED');
 export const likeFailed = createAction('LIKE_FAILED');
+
+export const unlikeRequested = createAction('UNLIKE_REQUESTED');
+export const unlikeSucceeded = createAction('UNLIKE_SUCCEEDED');
+export const unlikeFailed = createAction('UNLIKE_FAILED');

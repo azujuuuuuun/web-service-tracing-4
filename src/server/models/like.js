@@ -26,14 +26,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Like.associate = function(models) { // eslint-disable-line
     // associations can be defined here
-    Like.User = Like.belongsTo(models.User, {
-      foreignKey: 'userId',
-      as: 'user',
-    });
-    Like.Item = Like.belongsTo(models.Item, {
-      foreignKey: 'itemId',
-      as: 'item',
-    });
   };
   return Like;
 };

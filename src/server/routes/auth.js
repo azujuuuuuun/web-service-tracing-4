@@ -44,7 +44,9 @@ router.post('/auth', async (req, res) => {
       const decoded = jwt.verify(token, 'shhhhh');
       const { userId } = decoded;
       const user = await User.findById(userId, {
-        include: [User.Stocks, User.Followings, User.Followers],
+        include: [
+          User.Likes, User.Stocks, User.Followings, User.Followers,
+        ],
       });
       if (!user) {
         res.status(400).send('User was not found');

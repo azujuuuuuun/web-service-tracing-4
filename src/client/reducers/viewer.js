@@ -7,6 +7,8 @@ import {
   authenticateSucceeded,
   followRequested,
   unfollowRequested,
+  likeSucceeded,
+  unlikeSucceeded,
   stockSucceeded,
   unstockSucceeded,
 } from '../actions';
@@ -14,6 +16,7 @@ import {
 const defaultState = {
   isLoggedIn: false,
   followings: [],
+  likes: [],
   stocks: [],
 };
 
@@ -30,6 +33,15 @@ const viewer = createReducer({
   [authenticateSucceeded]: (state, payload) => Object.assign({}, state, {
     isLoggedIn: true,
     ...payload.user,
+  }),
+  [likeSucceeded]: (state, payload) => Object.assign({}, state, {
+    likes: [
+      payload.item,
+      ...state.likes,
+    ],
+  }),
+  [unlikeSucceeded]: (state, payload) => Object.assign({}, state, {
+    likes: state.likes.filter(i => i.id !== payload.itemId),
   }),
   [stockSucceeded]: (state, payload) => Object.assign({}, state, {
     stocks: [

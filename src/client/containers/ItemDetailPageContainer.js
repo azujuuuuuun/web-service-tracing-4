@@ -9,6 +9,7 @@ import ItemDetailPage from '../components/ItemDetailPage';
 import {
   fetchItemRequested,
   likeRequested,
+  unlikeRequested,
   stockRequested,
   unstockRequested,
   postCommentRequested,
@@ -21,16 +22,25 @@ class ItemDetailPageContainer extends React.Component { // eslint-disable-line
     fetchItemRequest(itemId);
   }
 
+  handleClickLike = (item) => {
+    const { likeRequest, viewer } = this.props;
+    likeRequest(item, viewer);
+  }
+
+  handleClickUnlike = (itemId) => {
+    const { unlikeRequest, viewer } = this.props;
+    unlikeRequest(itemId, viewer.id);
+  }
+
   render() {
     const {
       item,
-      likeRequest,
       stockRequest,
       unstockRequest,
       viewer,
       handleSubmit,
     } = this.props;
-    const hasLiked = item.likes.some(i => i.userId === viewer.id);
+    const hasLiked = viewer.likes.some(i => i.id === item.id);
     const hasStocked = viewer.stocks.some(i => i.id === item.id);
     return (
       <Loading>
@@ -38,11 +48,12 @@ class ItemDetailPageContainer extends React.Component { // eslint-disable-line
           names={['text']}
           component={ItemDetailPage}
           item={item}
-          handleClickLike={likeRequest}
+          hasLiked={hasLiked}
+          handleClickLike={this.handleClickLike}
+          handleClickUnlike={this.handleClickUnlike}
           hasStocked={hasStocked}
           handleClickStock={stockRequest}
           handleClickUnstock={unstockRequest}
-          hasLiked={hasLiked}
           handleSubmit={handleSubmit}
         />
       </Loading>
@@ -57,7 +68,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchItemRequest: itemId => dispatch(fetchItemRequested({ itemId })),
-  likeRequest: itemId => dispatch(likeRequested({ itemId })),
+  likeRequest: (item, user) => dispatch(likeRequested({
+    item, user,
+  })),
+  unlikeRequest: (itemId, userId) => dispatch(unlikeRequested({
+    itemId, userId,
+  })),
   stockRequest: item => dispatch(stockRequested({ item })),
   unstockRequest: itemId => dispatch(unstockRequested({ itemId })),
 });

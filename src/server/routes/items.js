@@ -49,9 +49,9 @@ router.get('/:itemId', async (req, res) => {
     const item = await Item.findOne({
       where: { id: itemId },
       include: [{
-        association: Item.User
+        association: Item.User,
       }, {
-        association: Item.Likes
+        association: Item.Likers,
       }, {
         association: Item.Comments,
         include: [Comment.User],
