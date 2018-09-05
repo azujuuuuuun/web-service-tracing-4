@@ -34,9 +34,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'user',
     });
-    Item.Likes = Item.hasMany(models.Like, {
+    Item.Likers = Item.belongsToMany(models.User, {
+      as: 'likers',
+      through: {
+        model: models.Like,
+      },
       foreignKey: 'itemId',
-      as: 'likes',
+      otherKey: 'userId',
     });
     Item.Comments = Item.hasMany(models.Comment, {
       foreignKey: 'itemId',
