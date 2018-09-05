@@ -12,6 +12,7 @@ import {
 const defaultState = {
   isLoggedIn: false,
   followings: [],
+  stocks: [],
 };
 
 const viewer = createReducer({
