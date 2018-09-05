@@ -4,13 +4,23 @@ import { Link } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import IconButton from '@material-ui/core/IconButton';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
 import TextField from '@material-ui/core/TextField';
 
 import GlobalHeader from '../containers/GlobalHeaderContainer';
 
 const ItemDetailPage = (props) => {
   const {
-    item, handleClickLike, hasLiked, text, handleSubmit,
+    item,
+    handleClickLike,
+    hasLiked,
+    hasStocked,
+    handleClickStock,
+    handleClickUnstock,
+    text,
+    handleSubmit,
   } = props;
   return (
     <div>
@@ -37,6 +47,29 @@ const ItemDetailPage = (props) => {
               </Button>
             </span>
           </Tooltip>
+          {!hasStocked ? (
+            <Tooltip title="ストック">
+              <span>
+                <IconButton
+                  onClick={() => handleClickStock(item)}
+                  disabled={hasStocked}
+                >
+                  <BookmarkBorderIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
+          ) : (
+            <Tooltip title="ストック済み">
+              <span>
+                <IconButton
+                  onClick={() => handleClickUnstock(item.id)}
+                  disabled={!hasStocked}
+                >
+                  <BookmarkIcon />
+                </IconButton>
+              </span>
+            </Tooltip>
+          )}
           <p>{item.body}</p>
         </div>
       )}
