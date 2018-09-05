@@ -51,7 +51,7 @@ router.get('/:itemId', async (req, res) => {
       include: [{
         association: Item.User,
       }, {
-        association: Item.Likes
+        association: Item.Likers,
       }, {
         association: Item.Comments,
         include: [Comment.User],
