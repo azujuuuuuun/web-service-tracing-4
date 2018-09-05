@@ -4,6 +4,7 @@ import {
   postItemSucceeded,
   fetchItemSucceeded,
   likeSucceeded,
+  unlikeSucceeded,
   postCommentSucceeded,
   fetchItemsSucceeded,
 } from '../actions';
@@ -22,6 +23,9 @@ export const item = createReducer({
       payload.user,
       ...state.likers,
     ],
+  }),
+  [unlikeSucceeded]: (state, payload) => Object.assign({}, state, {
+    likers: state.likers.filter(u => u.id !== payload.userId),
   }),
   [postCommentSucceeded]: (state, payload) => Object.assign({}, state, {
     comments: [
