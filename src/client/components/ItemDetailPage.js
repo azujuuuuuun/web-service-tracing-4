@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import CheckIcon from '@material-ui/icons/Check';
 import IconButton from '@material-ui/core/IconButton';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -14,8 +15,9 @@ import GlobalHeader from '../containers/GlobalHeaderContainer';
 const ItemDetailPage = (props) => {
   const {
     item,
-    handleClickLike,
     hasLiked,
+    handleClickLike,
+    handleClickUnlike,
     hasStocked,
     handleClickStock,
     handleClickUnstock,
@@ -36,17 +38,31 @@ const ItemDetailPage = (props) => {
             <span>{item.updatedAt}</span>
           </div>
           <h1>{item.title}</h1>
-          <Tooltip title="いいね">
-            <span>
-              <Button
-                onClick={() => handleClickLike(item.id)}
-                disabled={hasLiked}
-              >
-                <ThumbUpIcon />
-                <span>{item.likes.length}</span>
-              </Button>
-            </span>
-          </Tooltip>
+          {!hasLiked ? (
+            <Tooltip title="いいね">
+              <span>
+                <Button
+                  onClick={() => handleClickLike(item)}
+                  disabled={hasLiked}
+                >
+                  <ThumbUpIcon />
+                  <span>{item.likers.length}</span>
+                </Button>
+              </span>
+            </Tooltip>
+          ) : (
+            <Tooltip title="いいね済み">
+              <span>
+                <Button
+                  onClick={() => handleClickUnlike(item.id)}
+                  disabled={!hasLiked}
+                >
+                  <CheckIcon />
+                  <span>{item.likers.length}</span>
+                </Button>
+              </span>
+            </Tooltip>
+          )}
           {!hasStocked ? (
             <Tooltip title="ストック">
               <span>
