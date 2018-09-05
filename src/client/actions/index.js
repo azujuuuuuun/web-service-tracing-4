@@ -5,4 +5,5 @@ export * from './user';
 export * from './item';
 export * from './like';
 export * from './comment';
+export * from './relationship';
 export * from './dropdown';
