@@ -9,6 +9,7 @@ import {
 
 const defaultState = {
   isLoggedIn: false,
+  followings: [],
 };
 
 const viewer = createReducer({
