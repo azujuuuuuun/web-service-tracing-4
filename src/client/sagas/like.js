@@ -59,11 +59,12 @@ const Api = {
 
 function* like(action) {
   try {
-    const { err, data } = yield call(Api.like, action.payload.itemId);
+    const { item, user } = action.payload;
+    const { err, data } = yield call(Api.like, item.id);
     if (err) {
       yield put(likeFailed({ message: err.message }));
     } else if (data) {
-      yield put(likeSucceeded({ like: data }));
+      yield put(likeSucceeded({ item, user }));
     }
   } catch (e) {
     yield put(likeFailed({ message: e.message }));
