@@ -31,7 +31,7 @@ app.use('/dist', express.static(path.resolve(__dirname, '../../dist')));
 app.use('/public', express.static(path.resolve(__dirname, '../../public')));
 
 app.use('/', authRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
 app.use('/items', itemsRouter);
 app.use('/likes', likesRouter);
 app.use('/stocks', stocksRouter);

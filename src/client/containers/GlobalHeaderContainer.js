@@ -9,15 +9,17 @@ class GlobalHeaderContainer extends React.Component { // eslint-disable-line
     const {
       viewer,
       dropdown,
+      openCommunityDropdown,
       openViewerDropdown,
-      closeViewerDropdown,
+      _closeDropdown,
     } = this.props;
     return (
       <GlobalHeader
         viewer={viewer}
         dropdown={dropdown}
+        openCommunityDropdown={openCommunityDropdown}
         openViewerDropdown={openViewerDropdown}
-        closeViewerDropdown={closeViewerDropdown}
+        closeDropdown={_closeDropdown}
       />
     );
   }
@@ -29,8 +31,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  openCommunityDropdown: () => dispatch(openDropdown({ kind: 'community' })),
   openViewerDropdown: () => dispatch(openDropdown({ kind: 'viewer' })),
-  closeViewerDropdown: () => dispatch(closeDropdown()),
+  _closeDropdown: () => dispatch(closeDropdown()),
 });
 
 export default connect(

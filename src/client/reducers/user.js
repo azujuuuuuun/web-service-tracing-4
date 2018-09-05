@@ -1,13 +1,17 @@
 import { createReducer } from 'redux-act';
 
-import { fetchUserSucceeded } from '../actions';
+import { fetchUserSucceeded, fetchUsersSucceeded } from '../actions';
 
-const defaultState = {
+const userDefaultState = {
   items: [],
 };
 
-const user = createReducer({
+export const user = createReducer({
   [fetchUserSucceeded]: (state, payload) => payload.user,
-}, defaultState);
+}, userDefaultState);
 
-export default user;
+const usersDefaultState = [];
+
+export const users = createReducer({
+  [fetchUsersSucceeded]: (state, payload) => payload.users,
+}, usersDefaultState);
