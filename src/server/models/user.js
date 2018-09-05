@@ -34,6 +34,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'likes',
     });
+    User.Stocks = User.belongsToMany(models.Item, {
+      as: 'stocks',
+      through: {
+        model: models.Stock,
+      },
+      foreignKey: 'userId',
+      otherKey: 'itemId',
+    });
     User.Comments = User.hasMany(models.Comment, {
       foreignKey: 'userId',
       as: 'comments',

@@ -7,11 +7,14 @@ import {
   authenticateSucceeded,
   followRequested,
   unfollowRequested,
+  stockSucceeded,
+  unstockSucceeded,
 } from '../actions';
 
 const defaultState = {
   isLoggedIn: false,
   followings: [],
+  stocks: [],
 };
 
 const viewer = createReducer({
@@ -27,6 +30,15 @@ const viewer = createReducer({
   [authenticateSucceeded]: (state, payload) => Object.assign({}, state, {
     isLoggedIn: true,
     ...payload.user,
+  }),
+  [stockSucceeded]: (state, payload) => Object.assign({}, state, {
+    stocks: [
+      payload.item,
+      ...state.stocks,
+    ],
+  }),
+  [unstockSucceeded]: (state, payload) => Object.assign({}, state, {
+    stocks: state.stocks.filter(i => i.id !== payload.itemId),
   }),
   [followRequested]: (state, payload) => Object.assign({}, state, {
     followings: [

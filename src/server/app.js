@@ -17,6 +17,7 @@ const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const itemsRouter = require('./routes/items');
 const likesRouter = require('./routes/likes');
+const stocksRouter = require('./routes/stocks');
 const commentsRouter = require('./routes/comments');
 const relationshipsRouter = require('./routes/relationships');
 
@@ -33,6 +34,7 @@ app.use('/', authRouter);
 app.use('/users', usersRouter);
 app.use('/items', itemsRouter);
 app.use('/likes', likesRouter);
+app.use('/stocks', stocksRouter);
 app.use('/comments', commentsRouter);
 app.use('/relationships', relationshipsRouter);
 
