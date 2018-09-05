@@ -18,6 +18,7 @@ const usersRouter = require('./routes/users');
 const itemsRouter = require('./routes/items');
 const likesRouter = require('./routes/likes');
 const commentsRouter = require('./routes/comments');
+const relationshipsRouter = require('./routes/relationships');
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use('/users', usersRouter);
 app.use('/items', itemsRouter);
 app.use('/likes', likesRouter);
 app.use('/comments', commentsRouter);
+app.use('/relationships', relationshipsRouter);
 
 const renderFullPage = (html, preloadedState) => (
   `
