@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
@@ -33,6 +34,10 @@ const GlobalHeader = (props) => {
           </Link>
         </MenuItem>
       </Menu>
+      <Link to="/stock">
+        <FolderOpenIcon />
+        <span>ストック一覧</span>
+      </Link>
       <Link to="/drafts/new">投稿する</Link>
       <Avatar>{viewer.username}</Avatar>
       <IconButton onClick={openViewerDropdown}>
