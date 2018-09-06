@@ -5,7 +5,7 @@ const db = require('../models');
 
 const router = express.Router();
 
-const { User } = db;
+const { User, Item } = db;
 
 router.post('/signup', async (req, res) => {
   const { username, password } = req.body;
@@ -44,9 +44,16 @@ router.post('/auth', async (req, res) => {
       const decoded = jwt.verify(token, 'shhhhh');
       const { userId } = decoded;
       const user = await User.findById(userId, {
-        include: [
-          User.Likes, User.Stocks, User.Followings, User.Followers,
-        ],
+        include: [{
+          association: User.Likes,
+        }, {
+          association: User.Stocks,
+          include: [Item.User, Item.Likers, Item.Comments],
+        }, {
+          association: User.Followings,
+        }, {
+          association: User.Followers,
+        }],
       });
       if (!user) {
         res.status(400).send('User was not found');
