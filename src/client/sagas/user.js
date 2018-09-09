@@ -10,6 +10,7 @@ import {
 import {
   fetchUserRequested, fetchUserSucceeded, fetchUserFailed,
   fetchUsersRequested, fetchUsersSucceeded, fetchUsersFailed,
+  updateUserRequested, updateUserSucceeded, updateUserFailed,
 } from '../actions';
 
 const Api = {
@@ -36,6 +37,29 @@ const Api = {
       const { data } = res;
       const { users } = data;
       return { users };
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      return { err };
+    }
+  },
+  updateUser: async (payload) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { err: 'Token was not found.' };
+    }
+    try {
+      const res = await axios({
+        method: 'put',
+        url: '/api/users',
+        headers: {
+          token,
+        },
+        data: {
+          payload,
+        },
+      });
+      const { data } = res;
+      return { data };
     } catch (err) {
       console.log(err); // eslint-disable-line no-console
       return { err };
@@ -69,6 +93,19 @@ function* fetchUsers() {
   }
 }
 
+function* updateUser(action) {
+  try {
+    const { err, data } = yield call(Api.updateUser, action.payload);
+    if (err) {
+      yield put(updateUserFailed({ message: err.message }));
+    } else if (data) {
+      yield put(updateUserSucceeded());
+    }
+  } catch (e) {
+    yield put(updateUserFailed({ message: e.message }));
+  }
+}
+
 function* watchFetchUser() {
   yield takeEvery(fetchUserRequested.getType(), fetchUser);
 }
@@ -77,10 +114,15 @@ function* watchFetchUsers() {
   yield takeEvery(fetchUsersRequested.getType(), fetchUsers);
 }
 
+function* watchUpdateUser() {
+  yield takeEvery(updateUserRequested.getType(), updateUser);
+}
+
 function* rootSaga() {
   yield all([
     fork(watchFetchUser),
     fork(watchFetchUsers),
+    fork(watchUpdateUser),
   ]);
 }
 
