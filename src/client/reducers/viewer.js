@@ -11,6 +11,7 @@ import {
   unlikeSucceeded,
   stockSucceeded,
   unstockSucceeded,
+  updateNotificationsSucceeded,
 } from '../actions';
 
 const defaultState = {
@@ -18,6 +19,7 @@ const defaultState = {
   followings: [],
   likes: [],
   stocks: [],
+  notifications: [],
 };
 
 const viewer = createReducer({
@@ -60,6 +62,9 @@ const viewer = createReducer({
   }),
   [unfollowRequested]: (state, payload) => Object.assign({}, state, {
     followings: state.followings.filter(f => f.id !== payload.followedId),
+  }),
+  [updateNotificationsSucceeded]: (state, payload) => Object.assign({}, state, {
+    notifications: payload.notifications,
   }),
 }, defaultState);
 
