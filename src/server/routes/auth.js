@@ -53,6 +53,8 @@ router.post('/auth', async (req, res) => {
           association: User.Followings,
         }, {
           association: User.Followers,
+        }, {
+          association: User.Notifications,
         }],
       });
       if (!user) {
