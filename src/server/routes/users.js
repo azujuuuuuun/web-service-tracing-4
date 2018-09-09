@@ -34,6 +34,37 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.put('/password', async (req, res) => {
+  const { token } = req.headers;
+  if (!token) {
+    res.status(400).send('Token was undefined');
+  } else {
+    try {
+      const decoded = jwt.verify(token, 'shhhhh');
+      const { userId } = decoded;
+      const { currentPassword } = req.body;
+      const user = await User.findOne({
+        where: {
+          id: userId,
+          password: currentPassword,
+        },
+      });
+      if (!user) {
+        res.status(400).send('User was not found');
+      } else {
+        const { newPassword } = req.body;
+        const result = await User.update({ password: newPassword }, {
+          where: { id: userId },
+        });
+        res.status(200).send({ result });
+      }
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      res.status(400).send(err);
+    }
+  }
+});
+
 router.put('/', async (req, res) => {
   const { token } = req.headers;
   if (!token) {
