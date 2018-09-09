@@ -11,6 +11,7 @@ import {
   fetchUserRequested, fetchUserSucceeded, fetchUserFailed,
   fetchUsersRequested, fetchUsersSucceeded, fetchUsersFailed,
   updateUserRequested, updateUserSucceeded, updateUserFailed,
+  updatePasswordRequested, updatePasswordSucceeded, updatePasswordFailed,
 } from '../actions';
 
 const Api = {
@@ -65,6 +66,30 @@ const Api = {
       return { err };
     }
   },
+  updatePassword: async (currentPassword, newPassword) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { err: 'Token was not found.' };
+    }
+    try {
+      const res = await axios({
+        method: 'put',
+        url: '/api/users/password',
+        headers: {
+          token,
+        },
+        data: {
+          currentPassword,
+          newPassword,
+        },
+      });
+      const { data } = res;
+      return { data };
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      return { err };
+    }
+  },
 };
 
 function* fetchUser(action) {
@@ -106,6 +131,20 @@ function* updateUser(action) {
   }
 }
 
+function* updatePassword(action) {
+  try {
+    const { currentPassword, newPassword } = action.payload;
+    const { err, data } = yield call(Api.updatePassword, currentPassword, newPassword);
+    if (err) {
+      yield put(updatePasswordFailed({ message: err.message }));
+    } else if (data) {
+      yield put(updatePasswordSucceeded());
+    }
+  } catch (e) {
+    yield put(updatePasswordFailed({ message: e.message }));
+  }
+}
+
 function* watchFetchUser() {
   yield takeEvery(fetchUserRequested.getType(), fetchUser);
 }
@@ -118,11 +157,16 @@ function* watchUpdateUser() {
   yield takeEvery(updateUserRequested.getType(), updateUser);
 }
 
+function* watchUpdatePassword() {
+  yield takeEvery(updatePasswordRequested.getType(), updatePassword);
+}
+
 function* rootSaga() {
   yield all([
     fork(watchFetchUser),
     fork(watchFetchUsers),
     fork(watchUpdateUser),
+    fork(watchUpdatePassword),
   ]);
 }
 
