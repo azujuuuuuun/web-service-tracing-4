@@ -7,6 +7,7 @@ import likeSaga from './like';
 import stockSaga from './stock';
 import commentSaga from './comment';
 import relationshipSaga from './relationship';
+import notificationSaga from './notification';
 
 function* mySaga() {
   yield all([
@@ -17,6 +18,7 @@ function* mySaga() {
     fork(stockSaga),
     fork(commentSaga),
     fork(relationshipSaga),
+    fork(notificationSaga),
   ]);
 }
 
