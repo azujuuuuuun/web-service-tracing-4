@@ -1,5 +1,6 @@
 import React from 'react';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
@@ -17,7 +18,12 @@ const UserPage = (props) => {
       ) : (
         <div>
           <h3>{`@${user.username}`}</h3>
-          {!isViewer && (
+          {isViewer ? (
+            <Link to="/settings/profile">
+              <SettingsIcon />
+              <span>プロフィールを編集する</span>
+            </Link>
+          ) : (
             <div>
               <Button
                 onClick={() => followRequest(user)}

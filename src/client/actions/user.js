@@ -9,3 +9,7 @@ export const fetchUserFailed = createAction('FETCH_USER_FAILED');
 export const fetchUsersRequested = createAction('FETCH_USERS_REQUESTED');
 export const fetchUsersSucceeded = createAction('FETCH_USERS_SUCCEEDED');
 export const fetchUsersFailed = createAction('FETCH_USERS_FAILED');
+
+export const updateUserRequested = createAction('UPDATE_USER_REQUESTED');
+export const updateUserSucceeded = createAction('UPDATE_USER_SUCCEEDED');
+export const updateUserFailed = createAction('UPDATE_USER_FAILED');

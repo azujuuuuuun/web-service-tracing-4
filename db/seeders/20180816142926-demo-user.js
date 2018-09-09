@@ -15,11 +15,13 @@ module.exports = {
     const now = new Date();
     return queryInterface.bulkInsert('Users', [{
       username: 'a',
+      email: 'a@example.com',
       password: 'ypeBEsobvcr6wjGzmiPcTaeG7/gUfE5yuYB3ha/uSLs=',
       createdAt: now,
       updatedAt: now,
     }, {
       username: 'b',
+      email: 'b@example.com',
       password: 'PiPoFgA5WUoziU9lZOGxNIu9egCI1CxKy3PurtWcAJ0=',
       createdAt: now,
       updatedAt: now,
