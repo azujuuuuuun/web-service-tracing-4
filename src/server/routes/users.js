@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 
 const db = require('../models');
 
@@ -30,6 +31,31 @@ router.get('/', async (req, res) => {
   } catch (err) {
     console.log(err); // eslint-disable-line no-console
     res.status(400).send(err);
+  }
+});
+
+router.put('/', async (req, res) => {
+  const { token } = req.headers;
+  if (!token) {
+    res.status(400).send('Token was undefined');
+  } else {
+    try {
+      const decoded = jwt.verify(token, 'shhhhh');
+      const { userId } = decoded;
+      const user = await User.findById(userId);
+      if (!user) {
+        res.status(400).send('User was not found');
+      } else {
+        const { payload } = req.body;
+        const row = await User.update({ ...payload }, {
+          where: { id: userId },
+        });
+        res.status(200).send({ row });
+      }
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      res.status(400).send(err);
+    }
   }
 });
 
