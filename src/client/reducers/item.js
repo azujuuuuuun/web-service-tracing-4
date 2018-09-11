@@ -10,6 +10,7 @@ import {
 } from '../actions';
 
 const itemDefaultState = {
+  tags: [],
   likers: [],
   comments: [],
 };
