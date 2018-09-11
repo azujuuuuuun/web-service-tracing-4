@@ -1,10 +1,10 @@
 import React from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 import GlobalHeader from '../containers/GlobalHeaderContainer';
+import NotFound from './NotFound';
 
 const UserPage = (props) => {
   const {
@@ -14,7 +14,7 @@ const UserPage = (props) => {
     <div>
       <GlobalHeader />
       {!user.username ? (
-        <CircularProgress />
+        <NotFound />
       ) : (
         <div>
           <h3>{`@${user.username}`}</h3>
