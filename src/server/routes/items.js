@@ -5,7 +5,9 @@ const db = require('../models');
 
 const router = express.Router();
 
-const { User, Item, Comment } = db;
+const {
+  User, Item, Tag, ItemTag, Comment,
+} = db;
 
 router.post('/', async (req, res) => {
   const { token } = req.headers;
@@ -19,9 +21,22 @@ router.post('/', async (req, res) => {
       if (!user) {
         res.status(400).send('User was not found');
       } else {
-        const { title, body } = req.body;
+        const { title, tagNames, body } = req.body;
         const item = await Item.create({ title, body, userId });
+        const tags = await Promise.all(
+          tagNames.split(' ').map(async (t) => {
+            const [tag] = await Tag.findOrCreate({
+              where: { name: t },
+              defaults: { name: t },
+            });
+            return tag;
+          }),
+        );
+        await Promise.all(tags.map(t => (
+          ItemTag.create({ itemId: item.id, tagId: t.id })
+        )));
         item.dataValues.user = user;
+        item.dataValues.tags = tags;
         res.status(200).send({ item });
       }
     } catch (err) {
