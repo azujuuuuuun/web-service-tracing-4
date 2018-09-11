@@ -17,7 +17,11 @@ router.get('/:username', async (req, res) => {
         include: [Item.User],
       }],
     });
-    res.status(200).send({ user });
+    if (!user) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).send({ user });
+    }
   } catch (err) {
     console.log(err); // eslint-disable-line no-console
     res.status(400).send(err);
