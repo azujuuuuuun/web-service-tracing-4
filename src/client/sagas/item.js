@@ -15,7 +15,7 @@ import {
 import history from '../history';
 
 const Api = {
-  postItem: async (title, body) => {
+  postItem: async (title, tagNames, body) => {
     const token = localStorage.getItem('token');
     if (!token) {
       return { err: 'Token was not found.' };
@@ -29,6 +29,7 @@ const Api = {
         },
         data: {
           title,
+          tagNames,
           body,
         },
       });
@@ -72,7 +73,8 @@ const Api = {
 
 function* postItem(action) {
   try {
-    const { err, item } = yield call(Api.postItem, action.payload.title, action.payload.body);
+    const { title, tagNames, body } = action.payload;
+    const { err, item } = yield call(Api.postItem, title, tagNames, body);
     if (err) {
       yield put(postItemFailed({ message: err.message }));
     } else if (item) {
