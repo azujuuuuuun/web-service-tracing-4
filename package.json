@@ -11,6 +11,7 @@
     "insert-data": "./node_modules/.bin/sequelize db:seed:all",
     "delete-data": "./node_modules/.bin/sequelize db:seed:undo:all",
     "drop-tables": "./node_modules/.bin/sequelize db:migrate:undo:all",
+    "reset-data": "yarn run delete-data && yarn run drop-tables && yarn run create-tables && yarn run insert-data",
     "watch": "./node_modules/.bin/nodemon"
   },
   "dependencies": {
