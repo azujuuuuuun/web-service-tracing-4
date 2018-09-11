@@ -5,7 +5,9 @@ import Button from '@material-ui/core/Button';
 import GlobalHeader from '../containers/GlobalHeaderContainer';
 
 const DraftNewPage = (props) => {
-  const { title, body, handleSubmit } = props;
+  const {
+    title, tagNames, body, handleSubmit,
+  } = props;
   return (
     <div>
       <GlobalHeader />
@@ -15,6 +17,13 @@ const DraftNewPage = (props) => {
             value={title.input.value}
             onChange={title.input.onChange}
             placeholder="タイトル"
+          />
+        </div>
+        <div>
+          <TextField
+            value={tagNames.input.value}
+            onChange={tagNames.input.onChange}
+            placeholder="プログラミング技術に関連するタグをスペース区切りで5つまで入力（例: Ruby Rails:4.2.0）"
           />
         </div>
         <div>
