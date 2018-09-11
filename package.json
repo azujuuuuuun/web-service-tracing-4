@@ -7,10 +7,10 @@
   "license": "MIT",
   "scripts": {
     "sequelize": "./node_modules/.bin/sequelize",
-    "create-tables": "./node_modules/.bin/sequelize db:migrate",
-    "insert-data": "./node_modules/.bin/sequelize db:seed:all",
-    "delete-data": "./node_modules/.bin/sequelize db:seed:undo:all",
-    "drop-tables": "./node_modules/.bin/sequelize db:migrate:undo:all",
+    "create-tables": "yarn run sequelize db:migrate",
+    "insert-data": "yarn run sequelize db:seed:all",
+    "delete-data": "yarn run sequelize db:seed:undo:all",
+    "drop-tables": "yarn run sequelize db:migrate:undo:all",
     "reset-data": "yarn run delete-data && yarn run drop-tables && yarn run create-tables && yarn run insert-data",
     "watch": "./node_modules/.bin/nodemon"
   },
