@@ -11,7 +11,7 @@ class DraftNewPageContainer extends React.Component { // eslint-disable-line
     return (
       <Loading>
         <Fields
-          names={['title', 'body']}
+          names={['title', 'tagNames', 'body']}
           component={DraftNewPage}
           handleSubmit={handleSubmit}
         />
@@ -21,8 +21,8 @@ class DraftNewPageContainer extends React.Component { // eslint-disable-line
 }
 
 const onSubmit = (values, dispatch) => {
-  const { title, body } = values;
-  dispatch(postItemRequested({ title, body }));
+  const { title, tagNames, body } = values;
+  dispatch(postItemRequested({ title, tagNames, body }));
 };
 
 export default reduxForm({

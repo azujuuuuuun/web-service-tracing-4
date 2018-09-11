@@ -5,13 +5,16 @@ const db = require('../models');
 
 const router = express.Router();
 
-const { User, Item, Comment } = db;
+const {
+  sequelize, User, Item, Tag, ItemTag, Comment,
+} = db;
 
 router.post('/', async (req, res) => {
   const { token } = req.headers;
   if (!token) {
     res.status(400).send('Token was undefined');
   } else {
+    const transaction = await sequelize.transaction();
     try {
       const decoded = jwt.verify(token, 'shhhhh');
       const { userId } = decoded;
@@ -19,13 +22,35 @@ router.post('/', async (req, res) => {
       if (!user) {
         res.status(400).send('User was not found');
       } else {
-        const { title, body } = req.body;
-        const item = await Item.create({ title, body, userId });
+        const { title, tagNames, body } = req.body;
+        const item = await Item.create(
+          { title, body, userId },
+          { transaction },
+        );
+        const tags = await Promise.all(
+          tagNames.split(' ').map(async (t) => {
+            const [tag] = await Tag.findOrCreate({
+              where: { name: t },
+              defaults: { name: t },
+              transaction,
+            });
+            return tag;
+          }),
+        );
+        await Promise.all(tags.map(t => (
+          ItemTag.create(
+            { itemId: item.id, tagId: t.id },
+            { transaction },
+          )
+        )));
         item.dataValues.user = user;
+        item.dataValues.tags = tags;
+        await transaction.commit();
         res.status(200).send({ item });
       }
     } catch (err) {
       console.log(err); // eslint-disable-line no-console
+      await transaction.rollback();
       res.status(400).send(err);
     }
   }
@@ -50,6 +75,8 @@ router.get('/:itemId', async (req, res) => {
       where: { id: itemId },
       include: [{
         association: Item.User,
+      }, {
+        association: Item.Tags,
       }, {
         association: Item.Likers,
       }, {

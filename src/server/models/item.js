@@ -46,6 +46,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'itemId',
       as: 'comments',
     });
+    Item.Tags = Item.belongsToMany(models.Tag, {
+      as: 'tags',
+      through: {
+        model: models.ItemTag,
+      },
+      foreignKey: 'itemId',
+      otherKey: 'tagId',
+    });
   };
   return Item;
 };
