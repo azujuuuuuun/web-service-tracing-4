@@ -84,7 +84,11 @@ router.get('/:itemId', async (req, res) => {
         include: [Comment.User],
       }],
     });
-    res.status(200).send({ item });
+    if (!item) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).send({ item });
+    }
   } catch (err) {
     console.log(err); // eslint-disable-line no-console
     res.status(400).send(err);
