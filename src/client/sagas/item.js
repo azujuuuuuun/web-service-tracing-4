@@ -28,7 +28,7 @@ const Api = {
     try {
       const res = await axios({
         method: 'post',
-        url: '/items',
+        url: '/api/items',
         headers: {
           token,
         },
@@ -50,7 +50,7 @@ const Api = {
     try {
       const res = await axios({
         method: 'get',
-        url: `/items/${itemId}`,
+        url: `/api/items/${itemId}`,
       });
       const { data } = res;
       const { item } = data;
@@ -64,7 +64,7 @@ const Api = {
     try {
       const res = await axios({
         method: 'get',
-        url: '/items',
+        url: '/api/items',
       });
       const { data } = res;
       const { items } = data;

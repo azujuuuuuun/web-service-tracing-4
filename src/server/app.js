@@ -30,7 +30,7 @@ app.use('/public', express.static(path.resolve(__dirname, '../../public')));
 
 app.use('/', authRouter);
 app.use('/api/users', usersRouter);
-app.use('/items', itemsRouter);
+app.use('/api/items', itemsRouter);
 app.use('/api/tags', tagsRouter);
 app.use('/api/notifications', notificationsRouter);
 
