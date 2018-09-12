@@ -4,10 +4,7 @@ import authSaga from './auth';
 import userSaga from './user';
 import itemSaga from './item';
 import tagSaga from './tag';
-import likeSaga from './like';
-import stockSaga from './stock';
 import commentSaga from './comment';
-import relationshipSaga from './relationship';
 import notificationSaga from './notification';
 
 function* mySaga() {
@@ -16,10 +13,7 @@ function* mySaga() {
     fork(userSaga),
     fork(itemSaga),
     fork(tagSaga),
-    fork(likeSaga),
-    fork(stockSaga),
     fork(commentSaga),
-    fork(relationshipSaga),
     fork(notificationSaga),
   ]);
 }

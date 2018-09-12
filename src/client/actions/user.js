@@ -17,3 +17,11 @@ export const updateUserFailed = createAction('UPDATE_USER_FAILED');
 export const updatePasswordRequested = createAction('UPDATE_PASSWORD_REQUESTED');
 export const updatePasswordSucceeded = createAction('UPDATE_PASSWORD_SUCCEEDED');
 export const updatePasswordFailed = createAction('UPDATE_PASSWORD_FAILED');
+
+export const followRequested = createAction('FOLLOW_REQUESTED');
+export const followSucceeded = createAction('FOLLOW_SUCCEEDED');
+export const followFailed = createAction('FOLLOW_FAILED');
+
+export const unfollowRequested = createAction('UNFOLLOW_REQUESTED');
+export const unfollowSucceeded = createAction('UNFOLLOW_SUCCEEDED');
+export const unfollowFailed = createAction('UNFOLLOW_FAILED');
