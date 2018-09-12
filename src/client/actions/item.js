@@ -21,3 +21,11 @@ export const likeFailed = createAction('LIKE_FAILED');
 export const unlikeRequested = createAction('UNLIKE_REQUESTED');
 export const unlikeSucceeded = createAction('UNLIKE_SUCCEEDED');
 export const unlikeFailed = createAction('UNLIKE_FAILED');
+
+export const stockRequested = createAction('STOCK_REQUESTED');
+export const stockSucceeded = createAction('STOCK_SUCCEEDED');
+export const stockFailed = createAction('STOCK_FAILED');
+
+export const unstockRequested = createAction('UNSTOCK_REQUESTED');
+export const unstockSucceeded = createAction('UNSTOCK_SUCCEEDED');
+export const unstockFailed = createAction('UNSTOCK_FAILED');
