@@ -6,7 +6,7 @@ const db = require('../models');
 const router = express.Router();
 
 const {
-  sequelize, User, Item, Tag, ItemTag, Comment,
+  sequelize, User, Item, Tag, ItemTag, Comment, Like, Stock,
 } = db;
 
 router.post('/', async (req, res) => {
@@ -92,6 +92,52 @@ router.get('/:itemId', async (req, res) => {
   } catch (err) {
     console.log(err); // eslint-disable-line no-console
     res.status(400).send(err);
+  }
+});
+
+router.post('/:itemId/like', async (req, res) => {
+  const { token } = req.headers;
+  if (!token) {
+    res.status(400).send('Token was undefined');
+  } else {
+    try {
+      const decoded = jwt.verify(token, 'shhhhh');
+      const { userId } = decoded;
+      const user = await User.findById(userId);
+      if (!user) {
+        res.status(400).send('User was not found');
+      } else {
+        const { itemId } = req.params;
+        const like = await Like.create({ userId, itemId });
+        res.status(200).send({ like });
+      }
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      res.status(400).send(err);
+    }
+  }
+});
+
+router.delete('/:itemId/unlike', async (req, res) => {
+  const { token } = req.headers;
+  if (!token) {
+    res.status(400).send('Token was undefined');
+  } else {
+    try {
+      const decoded = jwt.verify(token, 'shhhhh');
+      const { userId } = decoded;
+      const user = await User.findById(userId);
+      if (!user) {
+        res.status(400).send('User was not found');
+      } else {
+        const { itemId } = req.params;
+        await Like.destroy({ where: { userId, itemId } });
+        res.sendStatus(204);
+      }
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      res.status(400).send(err);
+    }
   }
 });
 

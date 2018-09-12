@@ -11,6 +11,8 @@ import {
   postItemRequested, postItemSucceeded, postItemFailed,
   fetchItemRequested, fetchItemSucceeded, fetchItemFailed,
   fetchItemsRequested, fetchItemsSucceeded, fetchItemsFailed,
+  likeRequested, likeSucceeded, likeFailed,
+  unlikeRequested, unlikeSucceeded, unlikeFailed,
 } from '../actions';
 import history from '../history';
 
@@ -69,6 +71,45 @@ const Api = {
       return { err };
     }
   },
+  like: async (itemId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { err: 'Token was not found.' };
+    }
+    try {
+      const res = await axios({
+        method: 'post',
+        url: `/api/items/${itemId}/like`,
+        headers: {
+          token,
+        },
+      });
+      const { data } = res;
+      return { data: data.like };
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      return { err };
+    }
+  },
+  unlike: async (itemId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { err: 'Token was not found.' };
+    }
+    try {
+      await axios({
+        method: 'delete',
+        url: `/api/items/${itemId}/unlike`,
+        headers: {
+          token,
+        },
+      });
+      return { data: 'Deleteing like succeeded' };
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      return { err };
+    }
+  },
 };
 
 function* postItem(action) {
@@ -112,6 +153,34 @@ function* fetchItems() {
   }
 }
 
+function* like(action) {
+  try {
+    const { item, user } = action.payload;
+    const { err, data } = yield call(Api.like, item.id);
+    if (err) {
+      yield put(likeFailed({ message: err.message }));
+    } else if (data) {
+      yield put(likeSucceeded({ item, user }));
+    }
+  } catch (e) {
+    yield put(likeFailed({ message: e.message }));
+  }
+}
+
+function* unlike(action) {
+  try {
+    const { itemId, userId } = action.payload;
+    const { err, data } = yield call(Api.unlike, itemId);
+    if (err) {
+      yield put(unlikeFailed({ message: err.message }));
+    } else if (data) {
+      yield put(unlikeSucceeded({ itemId, userId }));
+    }
+  } catch (e) {
+    yield put(unlikeFailed({ message: e.message }));
+  }
+}
+
 function* watchPostItem() {
   yield takeEvery(postItemRequested.getType(), postItem);
 }
@@ -124,11 +193,21 @@ function* watchFetchItems() {
   yield takeEvery(fetchItemsRequested.getType(), fetchItems);
 }
 
+function* watchLike() {
+  yield takeEvery(likeRequested.getType(), like);
+}
+
+function* watchUnlike() {
+  yield takeEvery(unlikeRequested.getType(), unlike);
+}
+
 function* rootSaga() {
   yield all([
     fork(watchPostItem),
     fork(watchFetchItem),
     fork(watchFetchItems),
+    fork(watchLike),
+    fork(watchUnlike),
   ]);
 }
 
