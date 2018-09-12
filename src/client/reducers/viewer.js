@@ -19,6 +19,7 @@ const defaultState = {
   followings: [],
   likes: [],
   stocks: [],
+  followingTags: [],
   notifications: [],
 };
 
