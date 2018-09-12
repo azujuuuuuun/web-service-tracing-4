@@ -15,6 +15,8 @@ router.get('/:username', async (req, res) => {
       include: [{
         association: User.Items,
         include: [Item.User],
+      }, {
+        association: User.FollowingTags,
       }],
     });
     if (!user) {
