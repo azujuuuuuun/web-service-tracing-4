@@ -5,6 +5,7 @@ import loading from './loading';
 import viewer from './viewer';
 import { user, users } from './user';
 import { item, items } from './item';
+import { tag, tags } from './tag';
 import dropdown from './dropdown';
 
 export default combineReducers({
@@ -14,6 +15,8 @@ export default combineReducers({
   users,
   item,
   items,
+  tag,
+  tags,
   dropdown,
   form: formReducer,
 });
