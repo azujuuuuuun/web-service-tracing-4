@@ -5,7 +5,7 @@ const db = require('../models');
 
 const router = express.Router();
 
-const { User, Item } = db;
+const { User, Item, Tag } = db;
 
 router.post('/signup', async (req, res) => {
   const { username, password } = req.body;
@@ -53,6 +53,14 @@ router.post('/auth', async (req, res) => {
           association: User.Followings,
         }, {
           association: User.Followers,
+        }, {
+          association: User.FollowingTags,
+          include: [{
+            association: Tag.Items,
+            include: [Item.User, Item.Likers, Item.Tags],
+          }, {
+            association: Tag.Followers,
+          }],
         }, {
           association: User.Notifications,
         }],
