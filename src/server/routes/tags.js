@@ -5,73 +5,44 @@ const db = require('../models');
 
 const router = express.Router();
 
-const { User, Item } = db;
-
-router.get('/:username', async (req, res) => {
-  try {
-    const { username } = req.params;
-    const user = await User.findOne({
-      where: { username },
-      include: [{
-        association: User.Items,
-        include: [Item.User],
-      }, {
-        association: User.FollowingTags,
-      }],
-    });
-    if (!user) {
-      res.sendStatus(404);
-    } else {
-      res.status(200).send({ user });
-    }
-  } catch (err) {
-    console.log(err); // eslint-disable-line no-console
-    res.status(400).send(err);
-  }
-});
+const {
+  Tag, Item, User, UserTag,
+} = db;
 
 router.get('/', async (req, res) => {
   try {
-    const users = await User.findAll({});
-    res.status(200).send({ users });
+    const tags = await Tag.findAll({ include: [Tag.Followers] });
+    res.status(200).send({ tags });
   } catch (err) {
     console.log(err); // eslint-disable-line no-console
     res.status(400).send(err);
   }
 });
 
-router.put('/password', async (req, res) => {
-  const { token } = req.headers;
-  if (!token) {
-    res.status(400).send('Token was undefined');
-  } else {
-    try {
-      const decoded = jwt.verify(token, 'shhhhh');
-      const { userId } = decoded;
-      const { currentPassword } = req.body;
-      const user = await User.findOne({
-        where: {
-          id: userId,
-          password: currentPassword,
-        },
-      });
-      if (!user) {
-        res.status(400).send('User was not found');
-      } else {
-        const { newPassword } = req.body;
-        const result = await User.update({ password: newPassword }, {
-          where: { id: userId },
-        });
-        res.status(200).send({ result });
-      }
-    } catch (err) {
-      console.log(err); // eslint-disable-line no-console
-      res.status(400).send(err);
+router.get('/:tagName', async (req, res) => {
+  try {
+    const { tagName } = req.params;
+    const tag = await Tag.findOne({
+      where: { name: tagName },
+      include: [{
+        association: Tag.Items,
+        include: [Item.User, Item.Likers, Item.Tags],
+      }, {
+        association: Tag.Followers,
+      }],
+    });
+    if (!tag) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).send({ tag });
     }
+  } catch (err) {
+    console.log(err); // eslint-disable-line no-console
+    res.status(400).send(err);
   }
 });
 
-router.put('/', async (req, res) => {
+router.post('/:tagId/follow', async (req, res) => {
   const { token } = req.headers;
   if (!token) {
     res.status(400).send('Token was undefined');
@@ -83,11 +54,32 @@ router.put('/', async (req, res) => {
       if (!user) {
         res.status(400).send('User was not found');
       } else {
-        const { payload } = req.body;
-        const row = await User.update({ ...payload }, {
-          where: { id: userId },
-        });
-        res.status(200).send({ row });
+        const { tagId } = req.params;
+        const userTag = await UserTag.create({ userId, tagId });
+        res.status(200).send({ userTag });
+      }
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      res.status(400).send(err);
+    }
+  }
+});
+
+router.delete('/:tagId/unfollow', async (req, res) => {
+  const { token } = req.headers;
+  if (!token) {
+    res.status(400).send('Token was undefined');
+  } else {
+    try {
+      const decoded = jwt.verify(token, 'shhhhh');
+      const { userId } = decoded;
+      const user = await User.findById(userId);
+      if (!user) {
+        res.status(400).send('User was not found');
+      } else {
+        const { tagId } = req.params;
+        await UserTag.destroy({ where: { userId, tagId } });
+        res.sendStatus(204);
       }
     } catch (err) {
       console.log(err); // eslint-disable-line no-console

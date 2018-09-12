@@ -1,6 +1,7 @@
 import React from 'react';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Button from '@material-ui/core/Button';
+import LabelIcon from '@material-ui/icons/Label';
 import { Link } from 'react-router-dom';
 
 import GlobalHeader from '../containers/GlobalHeaderContainer';
@@ -42,6 +43,22 @@ const UserPage = (props) => {
               </Button>
             </div>
           )}
+          <div>
+            <div>
+              <LabelIcon />
+              <span>フォロー中のタグ</span>
+              <span>{user.followingTags.length}</span>
+            </div>
+            <div>
+              {user.followingTags.map(t => (
+                <li key={t.id}>
+                  <Link to={`/tags/${t.name}`}>
+                    {t.name}
+                  </Link>
+                </li>
+              ))}
+            </div>
+          </div>
           <div>
             {user.items.map(i => (
               <div key={i.id}>

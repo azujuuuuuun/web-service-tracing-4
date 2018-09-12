@@ -11,6 +11,8 @@ import {
   unlikeSucceeded,
   stockSucceeded,
   unstockSucceeded,
+  followTagSucceeded,
+  unfollowTagSucceeded,
   updateNotificationsSucceeded,
 } from '../actions';
 
@@ -19,6 +21,7 @@ const defaultState = {
   followings: [],
   likes: [],
   stocks: [],
+  followingTags: [],
   notifications: [],
 };
 
@@ -62,6 +65,15 @@ const viewer = createReducer({
   }),
   [unfollowRequested]: (state, payload) => Object.assign({}, state, {
     followings: state.followings.filter(f => f.id !== payload.followedId),
+  }),
+  [followTagSucceeded]: (state, payload) => Object.assign({}, state, {
+    followingTags: [
+      payload.tag,
+      ...state.followingTags,
+    ],
+  }),
+  [unfollowTagSucceeded]: (state, payload) => Object.assign({}, state, {
+    followingTags: state.followingTags.filter(t => t.id !== payload.tagId),
   }),
   [updateNotificationsSucceeded]: (state, payload) => Object.assign({}, state, {
     notifications: payload.notifications,

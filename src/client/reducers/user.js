@@ -4,6 +4,7 @@ import { fetchUserSucceeded, fetchUsersSucceeded } from '../actions';
 
 const userDefaultState = {
   items: [],
+  followingTags: [],
 };
 
 export const user = createReducer({
