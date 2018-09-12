@@ -12,6 +12,7 @@ import SettingsPasswordPage from './SettingsPasswordPageContainer';
 import SettingsNotificationsPage from './SettingsNotificationsPageContainer';
 import DraftNewPage from './DraftNewPageContainer';
 import ItemDetailPage from './ItemDetailPageContainer';
+import TagsPage from './TagsPageContainer';
 import TagPage from './TagPageContainer';
 import IndexPage from './IndexPageContainer';
 import SignupPage from './SignupPageContainer';
@@ -29,6 +30,7 @@ class RoutingContainer extends React.Component { // eslint-disable-line
         <Route path="/settings/password" component={SettingsPasswordPage} />
         <Route path="/settings/notifications" component={SettingsNotificationsPage} />
         <Route path="/drafts/new" component={DraftNewPage} />
+        <Route path="/tags" component={TagsPage} />
         <Route path="/tags/:tagName" component={TagPage} />
         <Route path="/:username/items/:itemId" component={ItemDetailPage} />
         <Route path="/:username" component={UserPage} />
