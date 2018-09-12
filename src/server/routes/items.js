@@ -187,4 +187,29 @@ router.delete('/:itemId/unstock', async (req, res) => {
   }
 });
 
+router.post('/:itemId/comments', async (req, res) => {
+  const { token } = req.headers;
+  if (!token) {
+    res.status(400).send('Token was undefined');
+  } else {
+    try {
+      const decoded = jwt.verify(token, 'shhhhh');
+      const { userId } = decoded;
+      const user = await User.findById(userId);
+      if (!user) {
+        res.status(400).send('User was not found');
+      } else {
+        const { text } = req.body;
+        const { itemId } = req.params;
+        const comment = await Comment.create({ text, userId, itemId });
+        comment.dataValues.user = user;
+        res.status(200).send({ comment });
+      }
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      res.status(400).send(err);
+    }
+  }
+});
+
 module.exports = router;

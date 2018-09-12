@@ -29,3 +29,7 @@ export const stockFailed = createAction('STOCK_FAILED');
 export const unstockRequested = createAction('UNSTOCK_REQUESTED');
 export const unstockSucceeded = createAction('UNSTOCK_SUCCEEDED');
 export const unstockFailed = createAction('UNSTOCK_FAILED');
+
+export const postCommentRequested = createAction('POST_COMMENT_REQUESTED');
+export const postCommentSucceeded = createAction('POST_COMMENT_SUCCEEDED');
+export const postCommentFailed = createAction('POST_COMMENT_FAILED');
