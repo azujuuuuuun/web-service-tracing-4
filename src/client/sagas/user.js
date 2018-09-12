@@ -12,6 +12,8 @@ import {
   fetchUsersRequested, fetchUsersSucceeded, fetchUsersFailed,
   updateUserRequested, updateUserSucceeded, updateUserFailed,
   updatePasswordRequested, updatePasswordSucceeded, updatePasswordFailed,
+  followRequested, followSucceeded, followFailed,
+  unfollowRequested, unfollowSucceeded, unfollowFailed,
 } from '../actions';
 
 const Api = {
@@ -90,6 +92,45 @@ const Api = {
       return { err };
     }
   },
+  follow: async (followedId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { err: 'Token was not found.' };
+    }
+    try {
+      const res = await axios({
+        method: 'post',
+        url: `/api/users/${followedId}/follow`,
+        headers: {
+          token,
+        },
+      });
+      const { data } = res;
+      return { data: data.relationship };
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      return { err };
+    }
+  },
+  unfollow: async (followedId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { err: 'Token was not found.' };
+    }
+    try {
+      await axios({
+        method: 'delete',
+        url: `/api/users/${followedId}/unfollow`,
+        headers: {
+          token,
+        },
+      });
+      return { data: 'Deleteing relationship succeeded' };
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      return { err };
+    }
+  },
 };
 
 function* fetchUser(action) {
@@ -145,6 +186,34 @@ function* updatePassword(action) {
   }
 }
 
+function* follow(action) {
+  try {
+    const { user } = action.payload;
+    const { err, data } = yield call(Api.follow, user.id);
+    if (err) {
+      yield put(followFailed({ message: err.message }));
+    } else if (data) {
+      yield put(followSucceeded({ user }));
+    }
+  } catch (e) {
+    yield put(followFailed({ message: e.message }));
+  }
+}
+
+function* unfollow(action) {
+  try {
+    const { followedId } = action.payload;
+    const { err, data } = yield call(Api.unfollow, followedId);
+    if (err) {
+      yield put(unfollowFailed({ message: err.message }));
+    } else if (data) {
+      yield put(unfollowSucceeded({ followedId }));
+    }
+  } catch (e) {
+    yield put(unfollowFailed({ message: e.message }));
+  }
+}
+
 function* watchFetchUser() {
   yield takeEvery(fetchUserRequested.getType(), fetchUser);
 }
@@ -161,12 +230,22 @@ function* watchUpdatePassword() {
   yield takeEvery(updatePasswordRequested.getType(), updatePassword);
 }
 
+function* watchFollow() {
+  yield takeEvery(followRequested.getType(), follow);
+}
+
+function* watchUnfollow() {
+  yield takeEvery(unfollowRequested.getType(), unfollow);
+}
+
 function* rootSaga() {
   yield all([
     fork(watchFetchUser),
     fork(watchFetchUsers),
     fork(watchUpdateUser),
     fork(watchUpdatePassword),
+    fork(watchFollow),
+    fork(watchUnfollow),
   ]);
 }
 

@@ -7,6 +7,5 @@ export * from './tag';
 export * from './like';
 export * from './stock';
 export * from './comment';
-export * from './relationship';
 export * from './notification';
 export * from './dropdown';

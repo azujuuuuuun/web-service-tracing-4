@@ -7,7 +7,6 @@ import tagSaga from './tag';
 import likeSaga from './like';
 import stockSaga from './stock';
 import commentSaga from './comment';
-import relationshipSaga from './relationship';
 import notificationSaga from './notification';
 
 function* mySaga() {
@@ -19,7 +18,6 @@ function* mySaga() {
     fork(likeSaga),
     fork(stockSaga),
     fork(commentSaga),
-    fork(relationshipSaga),
     fork(notificationSaga),
   ]);
 }

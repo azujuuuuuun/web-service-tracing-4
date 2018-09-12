@@ -20,7 +20,6 @@ const tagsRouter = require('./routes/tags');
 const likesRouter = require('./routes/likes');
 const stocksRouter = require('./routes/stocks');
 const commentsRouter = require('./routes/comments');
-const relationshipsRouter = require('./routes/relationships');
 const notificationsRouter = require('./routes/notifications');
 
 const app = express();
@@ -39,7 +38,6 @@ app.use('/api/tags', tagsRouter);
 app.use('/likes', likesRouter);
 app.use('/stocks', stocksRouter);
 app.use('/comments', commentsRouter);
-app.use('/relationships', relationshipsRouter);
 app.use('/api/notifications', notificationsRouter);
 
 const renderFullPage = (html, preloadedState) => (
