@@ -1,5 +1,6 @@
 import React from 'react';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
+import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -22,6 +23,11 @@ const StockPage = (props) => {
         {stocks.map(i => (
           (i.user && i.likers && i.comments) ? (
             <div key={i.id}>
+              <div>
+                <Avatar src={i.user.avatarImgSrc} alt="アバター">
+                  {i.user.username}
+                </Avatar>
+              </div>
               <div>
                 <div>
                   <span>

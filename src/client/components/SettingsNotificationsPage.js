@@ -1,4 +1,5 @@
 import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 
 import GlobalHeader from '../containers/GlobalHeaderContainer';
@@ -15,6 +16,9 @@ const SettingsNotificationsPage = (props) => {
       <div>
         <div>
           <div>
+            <Avatar src={viewer.avatarImgSrc}>
+              {viewer.username}
+            </Avatar>
             <Link to={`/${viewer.username}`}>
               {viewer.username}アカウント
             </Link>

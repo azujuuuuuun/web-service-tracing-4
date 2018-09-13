@@ -3,6 +3,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Button from '@material-ui/core/Button';
 import LabelIcon from '@material-ui/icons/Label';
 import { Link } from 'react-router-dom';
+import Avatar from '@material-ui/core/Avatar';
 
 import GlobalHeader from '../containers/GlobalHeaderContainer';
 import NotFound from './NotFound';
@@ -18,6 +19,7 @@ const UserPage = (props) => {
         <NotFound />
       ) : (
         <div>
+          {user.avatarImgSrc && <img src={user.avatarImgSrc} alt="アバター" />}
           <h3>{`@${user.username}`}</h3>
           {isViewer ? (
             <Link to="/settings/profile">
@@ -62,6 +64,11 @@ const UserPage = (props) => {
           <div>
             {user.items.map(i => (
               <div key={i.id}>
+                <div>
+                  <Avatar src={i.user.avatarImgSrc} alt="アバター">
+                    {i.user.username}
+                  </Avatar>
+                </div>
                 <div>
                   <Link to={`/${i.user.username}`}>
                     {i.user.username}
