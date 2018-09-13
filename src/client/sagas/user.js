@@ -14,7 +14,9 @@ import {
   updatePasswordRequested, updatePasswordSucceeded, updatePasswordFailed,
   followRequested, followSucceeded, followFailed,
   unfollowRequested, unfollowSucceeded, unfollowFailed,
+  uploadImageRequested, uploadImageSucceeded, uploadImageFailed,
 } from '../actions';
+import history from '../history';
 
 const Api = {
   fetchUser: async (username) => {
@@ -131,6 +133,29 @@ const Api = {
       return { err };
     }
   },
+  uploadImage: async (image) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return { err: 'Token was not found.' };
+    }
+    try {
+      const res = await axios({
+        method: 'post',
+        url: '/upload',
+        headers: {
+          token,
+          'Content-Type': 'multipart/form-data',
+        },
+        data: image,
+      });
+      const { data } = res;
+      const { avatarImgSrc } = data;
+      return { avatarImgSrc };
+    } catch (err) {
+      console.log(err); // eslint-disable-line no-console
+      return { err };
+    }
+  },
 };
 
 function* fetchUser(action) {
@@ -214,6 +239,20 @@ function* unfollow(action) {
   }
 }
 
+function* unloadImage(action) {
+  try {
+    const { err, avatarImgSrc } = yield call(Api.uploadImage, action.payload.image);
+    if (err) {
+      yield put(uploadImageFailed({ message: err.message }));
+    } else if (avatarImgSrc) {
+      yield call(history.push, '/settings/account');
+      yield put(uploadImageSucceeded({ avatarImgSrc }));
+    }
+  } catch (e) {
+    yield put(uploadImageFailed({ message: e.message }));
+  }
+}
+
 function* watchFetchUser() {
   yield takeEvery(fetchUserRequested.getType(), fetchUser);
 }
@@ -238,6 +277,10 @@ function* watchUnfollow() {
   yield takeEvery(unfollowRequested.getType(), unfollow);
 }
 
+function* watchUploadImage() {
+  yield takeEvery(uploadImageRequested.getType(), unloadImage);
+}
+
 function* rootSaga() {
   yield all([
     fork(watchFetchUser),
@@ -246,6 +289,7 @@ function* rootSaga() {
     fork(watchUpdatePassword),
     fork(watchFollow),
     fork(watchUnfollow),
+    fork(watchUploadImage),
   ]);
 }
 

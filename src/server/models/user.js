@@ -37,6 +37,9 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type: DataTypes.STRING,
     },
+    avatarImgSrc: {
+      type: DataTypes.STRING,
+    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,
