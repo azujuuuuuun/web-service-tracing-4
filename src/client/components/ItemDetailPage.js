@@ -1,4 +1,5 @@
 import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -34,6 +35,9 @@ const ItemDetailPage = (props) => {
         <div>
           <div>
             <div>
+              <Avatar src={item.user.avatarImgSrc} alt="アバター">
+                {item.user.username}
+              </Avatar>
               <Link to={`/${item.user.username}`}>
                 {`@${item.user.username}`}
               </Link>
@@ -100,6 +104,9 @@ const ItemDetailPage = (props) => {
               {item.comments.map(c => (
                 <div key={c.id}>
                   <div>
+                    <Avatar src={c.user.avatarImgSrc} alt="アバター">
+                      {c.user.username}
+                    </Avatar>
                     <div>
                       <span>{c.user.username}</span>
                     </div>
