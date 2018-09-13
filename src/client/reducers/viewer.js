@@ -14,6 +14,7 @@ import {
   followTagSucceeded,
   unfollowTagSucceeded,
   updateNotificationsSucceeded,
+  uploadImageSucceeded,
 } from '../actions';
 
 const defaultState = {
@@ -77,6 +78,9 @@ const viewer = createReducer({
   }),
   [updateNotificationsSucceeded]: (state, payload) => Object.assign({}, state, {
     notifications: payload.notifications,
+  }),
+  [uploadImageSucceeded]: (state, payload) => Object.assign({}, state, {
+    avatarImgSrc: payload.avatarImgSrc,
   }),
 }, defaultState);
 
