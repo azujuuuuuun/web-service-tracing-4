@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 
 app.use('/dist', express.static(path.resolve(__dirname, '../../dist')));
 app.use('/public', express.static(path.resolve(__dirname, '../../public')));
+app.use('/public/images', express.static(path.resolve(__dirname, '../../uploads')));
 
 app.use('/', authRouter);
 app.use('/upload', uploadRouter);
