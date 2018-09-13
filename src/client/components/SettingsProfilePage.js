@@ -1,4 +1,5 @@
 import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -24,6 +25,9 @@ const SettingsProfilePage = (props) => {
       <div>
         <div>
           <div>
+            <Avatar src={viewer.avatarImgSrc}>
+              {viewer.username}
+            </Avatar>
             <Link to={`/${viewer.username}`}>
               {viewer.username}アカウント
             </Link>
