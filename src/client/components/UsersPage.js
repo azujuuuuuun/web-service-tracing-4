@@ -1,5 +1,6 @@
 import React from 'react';
 import PeopleIcon from '@material-ui/icons/People';
+import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 
 import GlobalHeader from '../containers/GlobalHeaderContainer';
@@ -19,6 +20,7 @@ const UsersPage = (props) => {
       <div>
         {users.map(u => (
           <div key={u.id}>
+            <Avatar src={u.avatarImgSrc} alt="アバター">{u.username}</Avatar>
             <div>
               <Link to={`/${u.username}`}>{u.username}</Link>
             </div>
