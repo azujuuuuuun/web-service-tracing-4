@@ -1,4 +1,5 @@
 import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
 import { Link } from 'react-router-dom';
 
 import GlobalHeader from '../containers/GlobalHeaderContainer';
@@ -12,6 +13,9 @@ const AccountPage = (props) => {
       <SettingsMenu />
       <div>
         <div>
+          <Avatar src={viewer.avatarImgSrc}>
+            {viewer.username}
+          </Avatar>
           <Link to={`/${viewer.username}`}>{viewer.username}</Link>
           <span>/</span>
           <span>アカウント</span>
