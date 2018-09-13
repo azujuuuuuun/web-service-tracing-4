@@ -25,3 +25,7 @@ export const followFailed = createAction('FOLLOW_FAILED');
 export const unfollowRequested = createAction('UNFOLLOW_REQUESTED');
 export const unfollowSucceeded = createAction('UNFOLLOW_SUCCEEDED');
 export const unfollowFailed = createAction('UNFOLLOW_FAILED');
+
+export const uploadImageRequested = createAction('UPLOAD_IMAGE_REQUESTED');
+export const uploadImageSucceeded = createAction('UPLOAD_IMAGE_SUCCEEDED');
+export const uploadImageFailed = createAction('UPLOAD_IMAGE_FAILED');
