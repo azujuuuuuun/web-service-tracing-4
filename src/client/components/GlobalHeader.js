@@ -43,7 +43,9 @@ const GlobalHeader = (props) => {
             <span>ストック一覧</span>
           </Link>
           <Link to="/drafts/new">投稿する</Link>
-          <Avatar>{viewer.username}</Avatar>
+          <Avatar src={viewer.avatarImgSrc} alt="アバター">
+            {viewer.username}
+          </Avatar>
           <IconButton onClick={openViewerDropdown}>
             <ArrowDropDownIcon />
           </IconButton>
