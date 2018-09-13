@@ -7,6 +7,7 @@ import AppPage from './AppPageContainer';
 import UserPage from './UserPageContainer';
 import UsersPage from './UsersPageContainer';
 import StockPage from './StockPageContainer';
+import AccountPage from './AccountPageContainer';
 import SettingsProfilePage from './SettingsProfilePageContainer';
 import SettingsPasswordPage from './SettingsPasswordPageContainer';
 import SettingsNotificationsPage from './SettingsNotificationsPageContainer';
@@ -26,6 +27,7 @@ class RoutingContainer extends React.Component { // eslint-disable-line
         <Route exact path="/" component={AppPage} />
         <Route path="/users" component={UsersPage} />
         <Route path="/stock" component={StockPage} />
+        <Route exact path="/settings/account" component={AccountPage} />
         <Route path="/settings/profile" component={SettingsProfilePage} />
         <Route path="/settings/password" component={SettingsPasswordPage} />
         <Route path="/settings/notifications" component={SettingsNotificationsPage} />
